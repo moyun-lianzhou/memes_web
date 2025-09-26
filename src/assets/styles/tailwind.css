@@ -1,0 +1,39 @@
+/* 引入tailwindcss */
+@import "tailwindcss";
+/* 用类自定义暗黑模式 */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* 元素前的小圆点 */
+@layer utilities {
+  .before-dot {
+    position: relative;
+  }
+  .before-dot::before {
+    content: '';
+    position: absolute;
+    left: -0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    /* 可以继承文字颜色 */
+    background-color: currentColor; /* 默认颜色使用 currentColor */
+  }
+}
+
+
+/* @utility before-dot{
+  position: relative;
+  &::before{
+    content: '';
+    position: absolute;
+    left: -0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 9999px;
+    background-color: red;
+  }
+} */
