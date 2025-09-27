@@ -3,8 +3,8 @@ import { message } from 'antd';
 import { handleTokenExpired } from '@/utils/tokenAuth';
 
 const instance = axios.create({
-    // baseURL: 'https://www.moyunlianzhou.cn/api', // 生产模式
-    baseURL: 'http://localhost:3000/', // 开发模式
+    baseURL: 'https://www.moyunlianzhou.cn/api', // 生产模式
+    // baseURL: 'http://localhost:3000/', // 开发模式
     timeout: 5000,
 })
 
