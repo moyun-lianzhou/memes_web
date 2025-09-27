@@ -6,3 +6,6 @@ services:
       - "443:443"  # 宿主机 443 端口 → 容器 443 端口（HTTPS）
       - "80:80"    # 宿主机 80 端口 → 容器 80 端口（HTTP，可选，用于重定向）
     restart: always # 容器异常退出时，自动重启，确保服务一直运行。
+    # 重点：添加 volumes 配置，挂载宿主机证书目录到容器内
+    volumes:
+      - /opt/ssl-cert:/etc/nginx/ssl  # 宿主机路径:容器内路径
