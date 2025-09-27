@@ -3,24 +3,36 @@ name: Frontend CI/CD
 on:
   push:
     branches: [ main ]
-  workflow_dispatch:  # 支持手动触发工作流
+  workflow_dispatch:  # 支持手动触发
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: 配置 SSH
+      - name: 配置 SSH 私钥
         uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+      - name: 提前信任服务器公钥
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan $(dig +short ${{ secrets.SSH_HOST }}) >> ~/.ssh/known_hosts
+        shell: bash
+
       - name: 部署前端
         run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+            set -e
             cd /opt/memos-site/memos_web
+            echo "拉取最新代码..."
             git pull origin main
+            echo "停止旧容器..."
             docker compose down
+            echo "构建并启动新容器..."
             docker compose up -d --build
+            echo "部署完成"
           EOF
