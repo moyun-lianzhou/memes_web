@@ -1,0 +1,7 @@
+version: '3.8' # 声明 Docker Compose 文件的版本为 3.8，这是较新的版本，支持大多数现代 Docker 功能。
+services:
+  frontend: # 定义一个服务，名字叫 frontend，你可以理解为“启动一个容器”。
+    build: . # 告诉 Docker Compose：用当前目录下的 Dockerfile 构建镜像，也就是你刚才那个多阶段构建的镜像。
+    ports:
+      - "8080:80" # 端口映射：把宿主机的 8080 端口映射到容器内部的 80 端口。
+    restart: always # 容器异常退出时，自动重启，确保服务一直运行。
