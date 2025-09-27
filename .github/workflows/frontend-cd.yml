@@ -18,7 +18,7 @@ jobs:
       - name: 部署前端
         run: |
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
-            cd /www/wwwroot/frontend
+            cd /opt/memos-site/memos-web
             git pull origin main
             docker compose down
             docker compose up -d --build
