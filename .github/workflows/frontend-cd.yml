@@ -19,9 +19,7 @@ jobs:
       - name: 提前信任服务器公钥
         run: |
           mkdir -p ~/.ssh
-          ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-          ssh-keyscan $(dig +short ${{ secrets.SSH_HOST }}) >> ~/.ssh/known_hosts
-        shell: bash
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
       - name: 部署前端
         run: |
